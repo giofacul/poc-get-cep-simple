@@ -15,7 +15,6 @@ class ViaCepService {
       if (response.data.toString() == '{erro: true}') {
         return Future.error('CEP INVÁLIDO');
       }
-      print('É ISSO QUE RECEBE O ADDRESS do via cep $address');
       return address;
     } on DioError catch (e) {
       return Future.error('ERRO AO BUSCAR CEP');

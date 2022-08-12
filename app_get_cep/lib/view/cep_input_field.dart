@@ -23,7 +23,6 @@ class _CepInputFieldState extends State<CepInputField> {
     return Consumer<AddressManager>(
       builder: (_, addressManager, __) {
         final address = addressManager.address ?? Address();
-        print('ADDRESSSSSSS $address');
         return Column(
           children: [
             TextFormField(
@@ -48,8 +47,6 @@ class _CepInputFieldState extends State<CepInputField> {
             ElevatedButton(
               onPressed: () async {
                 final ViaCepService viaCepAddress = ViaCepService();
-
-                print('numero digitado cep ${textEditingController.text}');
                 if (Form.of(context)!.validate()) {
                   context
                       .read<AddressManager>()
@@ -62,13 +59,11 @@ class _CepInputFieldState extends State<CepInputField> {
                     if (addressViaCep != null) {
                       setState(() {
                         eai = 'tudo';
-                        print('CERTO $eai');
                       });
                     }
                   } catch (e) {
                     setState(() {
                       eai = 'quase';
-                      print('CATCH $eai');
                     });
                     rethrow;
                   }
@@ -91,20 +86,6 @@ class _CepInputFieldState extends State<CepInputField> {
         );
       },
     );
-  }
-
-  func(Address address) async {
-    final ViaCepService viaCepAddress = ViaCepService();
-
-    try {
-      final addressViaCep =
-          await viaCepAddress.getAddressFromCEP(address.zipCode!);
-      if (addressViaCep != null) {
-        AddressInputField(address: address);
-      }
-    } catch (e) {
-      rethrow;
-    }
   }
 }
 

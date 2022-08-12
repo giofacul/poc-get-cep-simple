@@ -8,7 +8,6 @@ class AddressInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('RETORNOU O ADDRESS INPUT CEP ${address?.zipCode}');
     String? emptyValidator(String? text) =>
         text!.isEmpty ? 'Campo Obrigatório' : null;
 
