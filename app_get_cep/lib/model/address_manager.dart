@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:app_get_cep/model/address.dart';
-import 'package:app_get_cep/via_cep_service.dart';
+import 'package:app_get_cep/view_model/via_cep_service.dart';
 import 'package:flutter/material.dart';
 
 class AddressManager extends ChangeNotifier {
@@ -10,18 +12,18 @@ class AddressManager extends ChangeNotifier {
 
     try {
       final addressViaCep = await viaCepAddress.getAddressFromCEP(cep);
-      print('ENDERECO $addressViaCep');
       if (addressViaCep != null) {
         address = Address(
-            street: addressViaCep.logradouro,
-            district: addressViaCep.bairro,
-            zipCode: addressViaCep.cep,
-            city: addressViaCep.localidade,
-            state: addressViaCep.uf);
+          street: addressViaCep.logradouro,
+          district: addressViaCep.bairro,
+          zipCode: addressViaCep.cep,
+          city: addressViaCep.localidade,
+          state: addressViaCep.uf,
+        );
         notifyListeners();
       }
     } catch (e) {
-      print('ENDERECO $e');
+      rethrow;
     }
   }
 }

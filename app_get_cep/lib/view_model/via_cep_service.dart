@@ -6,22 +6,18 @@ class ViaCepService {
     final cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
     final endPoint = 'https://viacep.com.br/ws/$cleanCep/json/';
 
-    print('ENDPOINT $endPoint');
-
     final Dio dio = Dio();
 
     var response = await dio.get(endPoint);
 
     try {
-      if (response.data?.isEmpty ?? true) {
-        print('CEP RETORNADO INVÁLIDO = ${response.data}');
+      final ViaCepAddress address = ViaCepAddress.fromMap(response.data);
+      if (response.data.toString() == '{erro: true}') {
         return Future.error('CEP INVÁLIDO');
       }
-      print('CEP RETORNADO CERTO = ${response.data}');
-      final ViaCepAddress address = ViaCepAddress.fromMap(response.data);
+      print('É ISSO QUE RECEBE O ADDRESS do via cep $address');
       return address;
     } on DioError catch (e) {
-      print('CEP RETORNADO ERRADO = ${response.data}');
       return Future.error('ERRO AO BUSCAR CEP');
     }
   }

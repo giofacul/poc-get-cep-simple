@@ -8,7 +8,6 @@ class AddressInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     print('RETORNOU O ADDRESS INPUT CEP ${address?.zipCode}');
     String? emptyValidator(String? text) =>
         text!.isEmpty ? 'Campo Obrigatório' : null;
@@ -31,7 +30,7 @@ class AddressInputField extends StatelessWidget {
                 initialValue: address?.number,
                 decoration: const InputDecoration(
                     isDense: true, labelText: 'Número', hintText: '123'),
-                validator: emptyValidator,
+                // validator: emptyValidator,
                 onSaved: (text) => address!.number = text,
                 keyboardType: TextInputType.number,
               ),
@@ -46,7 +45,7 @@ class AddressInputField extends StatelessWidget {
                     isDense: true,
                     labelText: 'Complemento',
                     hintText: 'Opcional'),
-                validator: emptyValidator,
+                // validator: emptyValidator,
                 onSaved: (text) => address!.complement = text,
               ),
             ),
@@ -105,7 +104,7 @@ class AddressInputField extends StatelessWidget {
           onPressed: () {
             if (Form.of(context)!.validate()) {}
           },
-          child: Text(
+          child: const Text(
             'SALVAR',
             style: TextStyle(color: Colors.white),
           ),
