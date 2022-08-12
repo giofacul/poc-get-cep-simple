@@ -17,6 +17,7 @@ class AddressManager extends ChangeNotifier {
         address = Address(
           street: addressViaCep.logradouro,
           district: addressViaCep.bairro,
+          complement: addressViaCep.complemento,
           zipCode: addressViaCep.cep,
           city: addressViaCep.localidade,
           state: addressViaCep.uf,

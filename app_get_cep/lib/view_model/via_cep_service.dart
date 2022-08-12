@@ -10,6 +10,8 @@ class ViaCepService {
 
     var response = await dio.get(endPoint);
 
+    print('ENDPOINT $endPoint');
+
     try {
       final ViaCepAddress address = ViaCepAddress.fromMap(response.data);
       if (response.data.toString() == '{erro: true}') {

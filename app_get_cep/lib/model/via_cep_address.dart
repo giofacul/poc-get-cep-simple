@@ -4,6 +4,7 @@ class ViaCepAddress {
   String? logradouro;
   String? bairro;
   String? localidade;
+  String? complemento;
   String? uf;
 
   ViaCepAddress.fromMap(Map<String, dynamic>? map){
@@ -12,6 +13,7 @@ class ViaCepAddress {
     logradouro = map['logradouro'];
     bairro = map['bairro'];
     localidade = map['localidade'];
+    complemento = map['complemento'];
     uf = map['uf'];
   }
 

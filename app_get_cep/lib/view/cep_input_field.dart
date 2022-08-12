@@ -15,8 +15,11 @@ class CepInputField extends StatefulWidget {
 
 class _CepInputFieldState extends State<CepInputField> {
   final textEditingController = TextEditingController();
-
-  String? eai = 'nada';
+  String? validateReturnField = 'none';
+  final returnedInvalidData = 'none';
+  final returnedValidData = 'returnedOk';
+  final returnedNoValidData = 'noReturnedValid';
+  final returnedDifferentData = 'differentData';
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,7 @@ class _CepInputFieldState extends State<CepInputField> {
               onPressed: () async {
                 final ViaCepService viaCepAddress = ViaCepService();
                 if (Form.of(context)!.validate()) {
+                  validateReturnField = returnedDifferentData;
                   context
                       .read<AddressManager>()
                       .getAddress(textEditingController.text)
@@ -58,12 +62,12 @@ class _CepInputFieldState extends State<CepInputField> {
                         .getAddressFromCEP(textEditingController.text);
                     if (addressViaCep != null) {
                       setState(() {
-                        eai = 'tudo';
+                        validateReturnField = returnedValidData;
                       });
                     }
                   } catch (e) {
                     setState(() {
-                      eai = 'quase';
+                      validateReturnField = returnedNoValidData;
                     });
                     rethrow;
                   }
@@ -74,14 +78,18 @@ class _CepInputFieldState extends State<CepInputField> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            if (eai == 'tudo') AddressInputField(address: address),
-            if (eai == 'quase')
-              Text(
+            if (validateReturnField == returnedValidData)
+              AddressInputField(
+                address: address,
+              ),
+            if (validateReturnField == returnedNoValidData)
+              const Text(
                   'Não conseguimos localizar seu endereço, verifique se as informações passadas estão corretas'),
-            if (eai == 'nada')
+            if (validateReturnField == returnedInvalidData)
               Image.network(
                   'https://store-images.s-microsoft.com/image/apps.6607.13510798887520085.'
                   '3b5999bd-0689-4a5d-b1fa-378e87bb83a5.ee076621-7430-46f1-a4ac-a0c442d69e58'),
+            if (validateReturnField == returnedDifferentData) Container(),
           ],
         );
       },

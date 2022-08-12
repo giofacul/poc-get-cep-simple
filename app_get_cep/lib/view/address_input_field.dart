@@ -11,6 +11,8 @@ class AddressInputField extends StatelessWidget {
     String? emptyValidator(String? text) =>
         text!.isEmpty ? 'Campo Obrigatório' : null;
 
+    print('ENTREI AQUI COM O CEP - ${address!.zipCode}');
+
     return Column(
       children: [
         TextFormField(
@@ -39,7 +41,10 @@ class AddressInputField extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                initialValue: address?.complement,
+                initialValue: address!.complement!.contains('-')
+                    ? address!.complement!
+                        .substring(0, address!.complement!.indexOf('-'))
+                    : address!.complement,
                 decoration: const InputDecoration(
                     isDense: true,
                     labelText: 'Complemento',
