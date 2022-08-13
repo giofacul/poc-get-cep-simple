@@ -1,4 +1,5 @@
 class Address {
+  String? id;
   String? street;
   String? number;
   String? complement;
@@ -11,7 +12,8 @@ class Address {
   double? long;
 
   Address(
-      {this.street,
+      {this.id,
+      this.street,
       this.number,
       this.complement,
       this.district,

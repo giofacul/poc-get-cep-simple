@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AddressManager(),
+          create: (context) => AddressManager(),
           lazy: false,
         ),
       ],

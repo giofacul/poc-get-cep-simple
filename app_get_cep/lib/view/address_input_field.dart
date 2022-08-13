@@ -1,28 +1,29 @@
 import 'package:app_get_cep/model/address.dart';
+import 'package:app_get_cep/model/address_manager.dart';
+import 'package:app_get_cep/view/load_datas.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddressInputField extends StatelessWidget {
   final Address? address;
-
-  const AddressInputField({Key? key, this.address}) : super(key: key);
+  AddressInputField({Key? key, this.address}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String? emptyValidator(String? text) =>
         text!.isEmpty ? 'Campo Obrigatório' : null;
 
-    print('ENTREI AQUI COM O CEP - ${address!.zipCode}');
-
     return Column(
       children: [
         TextFormField(
+
           initialValue: address?.street,
           decoration: const InputDecoration(
               isDense: true,
               labelText: 'Rua/Avenida',
               hintText: 'Avenida Brasil'),
           validator: emptyValidator,
-          onSaved: (text) => address!.street = text,
+          onChanged: (text) => address!.street = text,
         ),
         Row(
           children: [
@@ -31,8 +32,7 @@ class AddressInputField extends StatelessWidget {
                 initialValue: address?.number,
                 decoration: const InputDecoration(
                     isDense: true, labelText: 'Número', hintText: '123'),
-                // validator: emptyValidator,
-                onSaved: (text) => address!.number = text,
+                onChanged: (text) => address!.number = text,
                 keyboardType: TextInputType.number,
               ),
             ),
@@ -41,16 +41,13 @@ class AddressInputField extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                initialValue: address!.complement!.contains('-')
-                    ? address!.complement!
-                        .substring(0, address!.complement!.indexOf('-'))
-                    : address!.complement,
+                initialValue: address!.complement,
                 decoration: const InputDecoration(
                     isDense: true,
                     labelText: 'Complemento',
                     hintText: 'Opcional'),
-                // validator: emptyValidator,
-                onSaved: (text) => address!.complement = text,
+                validator: emptyValidator,
+                onChanged: (text) => address!.complement = text,
               ),
             ),
           ],
@@ -60,7 +57,7 @@ class AddressInputField extends StatelessWidget {
           decoration: const InputDecoration(
               isDense: true, labelText: 'Bairro', hintText: 'Centro'),
           validator: emptyValidator,
-          onSaved: (text) => address!.district = text,
+          onChanged: (text) => address!.district = text,
         ),
         Row(
           children: [
@@ -72,7 +69,7 @@ class AddressInputField extends StatelessWidget {
                 decoration: const InputDecoration(
                     isDense: true, labelText: 'Cidade', hintText: 'São Paulo'),
                 validator: emptyValidator,
-                onSaved: (text) => address!.city = text,
+                onChanged: (text) => address!.city = text,
                 keyboardType: TextInputType.number,
               ),
             ),
@@ -90,7 +87,7 @@ class AddressInputField extends StatelessWidget {
                     labelText: 'Estado',
                     hintText: 'SP',
                     counterText: ''),
-                onSaved: (text) => address!.state = text,
+                onChanged: (text) => address!.state = text,
                 maxLength: 2,
                 validator: (cep) {
                   if (cep!.isEmpty) {
@@ -106,7 +103,11 @@ class AddressInputField extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            if (Form.of(context)!.validate()) {}
+            if (Form.of(context)!.validate()) {
+              func(context);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => LoadDatas()));
+            }
           },
           child: const Text(
             'SALVAR',
@@ -115,5 +116,16 @@ class AddressInputField extends StatelessWidget {
         )
       ],
     );
+  }
+
+  func(BuildContext context) {
+    context.read<AddressManager>().addPlace(
+        address?.zipCode,
+        address?.street,
+        address?.number,
+        address?.complement,
+        address?.district,
+        address?.city,
+        address?.state);
   }
 }
