@@ -7,6 +7,7 @@ class ViaCepAddress {
   String? complemento;
   String? uf;
 
+  //PEGANDO OS DADOS DA API, ESPECIFICANDO CADA DADO DO MAP
   ViaCepAddress.fromMap(Map<String, dynamic>? map){
     altitude = map!['altitude'];
     cep = map['cep'];

@@ -10,6 +10,7 @@ class LoadDatas extends StatefulWidget {
   State<LoadDatas> createState() => _LoadDatasState();
 }
 
+//RETORNANDO TODA LISTA DE ITENS SALVOS NO SQFLITE
 class _LoadDatasState extends State<LoadDatas> {
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,12 @@ class _LoadDatasState extends State<LoadDatas> {
       future: loaf,
       builder: (ctx, snapshot) => snapshot.connectionState ==
               ConnectionState.waiting
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Container(
+        color: Colors.white,
+            child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+          )
           : Scaffold(
               appBar: AppBar(
                 title: const Text('Meus Lugares'),

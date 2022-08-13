@@ -9,9 +9,9 @@ class AddressManager extends ChangeNotifier {
   Address? address;
   List<Address> _items = [];
 
+  //FUNÇÃO RESPONSÁVEL POR BUSCAR OS DADOS DA API E PREENCHER A INTERFACE DE ADDRESS
   Future<void> getAddress(String cep) async {
     final ViaCepService viaCepAddress = ViaCepService();
-
     try {
       final addressViaCep = await viaCepAddress.getAddressFromCEP(cep);
       if (addressViaCep != null) {
@@ -34,6 +34,7 @@ class AddressManager extends ChangeNotifier {
     }
   }
 
+  //CARREGA OS LUGARES SALVOS DO SQFLITE
   Future<void> loadPlaces() async {
     final dataList = await DbUtil.getData('places');
     _items = dataList
@@ -65,6 +66,7 @@ class AddressManager extends ChangeNotifier {
     return _items[index];
   }
 
+  //ADC CADA LOCAL NO SQFLITE
   Future<void> addPlace(String? title, String? address, String? number,
       String? complement, String? district, String? city, String? state) async {
     final newPlace = Address(
