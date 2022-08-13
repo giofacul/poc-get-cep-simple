@@ -13,17 +13,17 @@ class LoadDatas extends StatefulWidget {
 class _LoadDatasState extends State<LoadDatas> {
   @override
   Widget build(BuildContext context) {
-    print('entrou no load');
     DbUtil dbUtil = DbUtil();
     final loaf =
         Provider.of<AddressManager>(context, listen: false).loadPlaces();
-    print('looad retonnado provider $loaf');
 
     return FutureBuilder(
       future: loaf,
       builder: (ctx, snapshot) => snapshot.connectionState ==
               ConnectionState.waiting
-          ? Text('nao retornou')
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
           : Scaffold(
               appBar: AppBar(
                 title: const Text('Meus Lugares'),
@@ -36,24 +36,28 @@ class _LoadDatasState extends State<LoadDatas> {
                     ? ch!
                     : ListView.builder(
                         itemCount: greatPlaces.itemsCount,
-                        itemBuilder: (ctx, i) => ListTile(
-                          title: Text(greatPlaces.getItemByIndex(i).zipCode!),
-                          subtitle: Text(
-                              '${greatPlaces.getItemByIndex(i).street} '
-                              '- ${greatPlaces.getItemByIndex(i).complement} '
-                              '- ${greatPlaces.getItemByIndex(i).city} '
-                              '- CEP ${greatPlaces.getItemByIndex(i).zipCode}'),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              setState(() {
-                                dbUtil.deletePlace(int.parse(
-                                    greatPlaces.getItemByIndex(i).id!));
-                              });
-                            },
-                          ),
-                        ),
-                      ),
+                        itemBuilder: (ctx, i) {
+                          final pathItem = greatPlaces.getItemByIndex(i);
+                          return ListTile(
+                            title: Text(pathItem.zipCode!),
+                            subtitle: pathItem.complement!.isNotEmpty
+                                ? Text('${pathItem.street} '
+                                    '- ${pathItem.complement} '
+                                    '- ${pathItem.city} '
+                                    '- CEP ${pathItem.zipCode}')
+                                : Text('${pathItem.street} '
+                                    '- ${pathItem.city} '
+                                    '- CEP ${pathItem.zipCode}'),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                setState(() {
+                                  dbUtil.deletePlace(int.parse(pathItem.id!));
+                                });
+                              },
+                            ),
+                          );
+                        }),
               ),
             ),
     );

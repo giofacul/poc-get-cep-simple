@@ -46,7 +46,7 @@ class AddressInputField extends StatelessWidget {
                     isDense: true,
                     labelText: 'Complemento',
                     hintText: 'Opcional'),
-                validator: emptyValidator,
+                // validator: emptyValidator,
                 onChanged: (text) => address!.complement = text,
               ),
             ),
