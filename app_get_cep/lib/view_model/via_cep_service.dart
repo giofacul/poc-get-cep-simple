@@ -5,6 +5,7 @@ class ViaCepService {
 
   //FUNCAO RESPONSÁVEL POR PEGAR OS DADOS DO LINK
   Future<ViaCepAddress> getAddressFromCEP(String cep) async {
+    print('OQ VEIO DO CEP $cep');
     final cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
     final endPoint = 'https://viacep.com.br/ws/$cleanCep/json/';
 
