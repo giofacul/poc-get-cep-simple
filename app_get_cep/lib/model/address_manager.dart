@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_get_cep/model/address.dart';
 import 'package:app_get_cep/model/db_util.dart';
+import 'package:app_get_cep/model/type.dart';
 import 'package:app_get_cep/view_model/via_cep_service.dart';
 import 'package:flutter/material.dart';
 
@@ -93,4 +94,5 @@ class AddressManager extends ChangeNotifier {
     });
     notifyListeners();
   }
+
 }

@@ -38,6 +38,7 @@ dependencies:
   provider: ^6.0.3
   sqflite: ^2.0.3
   mask_text_input_formatter: ^2.4.0
+  shared_preferences: ^2.0.15
 
 
 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CepInputField extends StatefulWidget {
   CepInputField({Key? key}) : super(key: key);
@@ -57,9 +58,14 @@ class _CepInputFieldState extends State<CepInputField> {
               onPressed: () async {
                 //BUSCA A CLASSE VIACEP (AQUI VC TEM Q ENTRA NA CLASSE VIA CEP SERVICE E CRIAR ELA)
                 final ViaCepService viaCepAddress = ViaCepService();
+                final prefs = await SharedPreferences.getInstance();
 
                 //VALUDA O FORMULARIO
                 if (Form.of(context)!.validate()) {
+                  //adicionando o shared contador
+                  var returnCounter = await prefs.getInt('counter') ?? 0;
+                  final addCounter = returnCounter + 1;
+                  await prefs.setInt('counter', addCounter);
                   //MUDA O TEXTO FIXO DO RETORNO PARA O CONTAINER, QUE SÓ TRANSITA OS RETORNOS
                   validateReturnField = returnedDifferentData;
                   //ENVIA PRA FUNCAO GETADDRESS O TEXTO Q FOI DIFITADO NO INPUT

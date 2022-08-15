@@ -14,6 +14,18 @@ class DbUtil {
     );
   }
 
+  static Future<sql.Database> databaseTypeScreen() async {
+    final dbPath = await sql.getDatabasesPath();
+    return sql.openDatabase(
+      path.join(dbPath, 'typescreen.db'),
+      onCreate: (db, version) {
+        return db.execute(
+            'CREATE TABLE type(typeselected TEXT)');
+      },
+      version: 1,
+    );
+  }
+
   static Future<void> insert(String table, Map<String, Object> data) async {
     final db = await DbUtil.database();
     await db.insert(
@@ -23,8 +35,23 @@ class DbUtil {
     );
   }
 
+  static Future<void> insertTypes(String table, Map<String, Object> data) async {
+    final db = await DbUtil.databaseTypeScreen();
+    await db.insert(
+      table,
+      data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
+  }
+
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DbUtil.database();
+    return db.query(table);
+  }
+
+  static Future<List<Map<String, dynamic>>> getDataTypeScreen(String table) async {
+    final db = await DbUtil.databaseTypeScreen();
     return db.query(table);
   }
 
